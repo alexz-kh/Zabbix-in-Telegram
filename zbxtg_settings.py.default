@@ -1,0 +1,48 @@
+# -*- coding: utf-8 -*-
+import os
+
+# telegram bot api key
+tg_key = ""
+
+tg_group_default = "zzz"
+
+# variable for separating text from script info
+zbx_tg_prefix = "zbxtg"
+# directory for saving caches, uids, cookies, etc.
+zbx_tg_tmp_dir = os.path.join("/tmp/", zbx_tg_prefix)
+log_file = os.path.join(zbx_tg_tmp_dir, "debug.log")
+
+
+# Will be appened at the end of message
+zbx_tg_signature = False
+
+zbx_server = "http://:"  # zabbix server full url
+zbx_api_user = "bot"
+zbx_api_pass = "botbotbot"
+zbx_api_verify = True  # True - do not ignore self signed certificates, False - ignore
+
+zabbix_pic = {
+    "itemid": 0,
+    "image_period": 3600,
+    "title": "zz",
+    "image_width": "900",
+    "image_height": "200",
+}
+
+#proxy_to_zbx = None
+#proxy_to_tg = None
+
+#proxy_to_zbx = "proxy.local:3128"
+#proxy_to_tg = "proxy.local:3128"
+
+emoji_map = {
+    "ok": "✅",
+    "problem": "❗",
+    "info": "ℹ️",
+    "warning": "⚠️",
+    "disaster": "❌",
+    "bomb": "💣",
+    "fire": "🔥",
+    "hankey": "💩",
+    "test_ok" : "ok_hand"
+}
