@@ -29,6 +29,7 @@ class TelegramAPI():
         self.reply_to_message_id = 0
         self.tmp_uids_file = None
         self.emoji_map = None
+        self.static_uids = {}
 
     def http_get(self, url):
         res = requests.get(url, proxies=self.proxies)
@@ -123,8 +124,7 @@ class TelegramAPI():
         :param name:
         :return:
         """
-        #uid = self.get_uid_from_cache(name)
-        uid =False
+        uid = self.get_uid_from_cache(name)
         if not uid:
             uid = self.get_uid_from_updates(name)
         return uid
@@ -151,6 +151,11 @@ class TelegramAPI():
                         uid = chat["id"]
         if uid:
             log.debug("Sucesfully get {} <==> uid:{}".format(name,uid))
+        else:
+            log.error(
+                "User:{} uid not found!Probably user"
+                " need to send message..".format(name))
+            sys.exit(1)
         self.update_cache_uid(name, uid)
         return uid
 
@@ -173,13 +178,22 @@ class TelegramAPI():
 
     def get_uid_from_cache(self, name):
         uid = False
+        log.debug("Trying to find user:{} in cache..".format(name))
+        if name in self.static_uids.keys():
+            uid = self.static_uids[name].get("uid", None)
+            type = self.static_uids[name].get("type", None)
+            if type == self.type:
+                log.debug("Found user:{} id:{} in static_uids".format(name,uid))
+                return uid
         if os.path.isfile(self.tmp_uids_file):
             with open(self.tmp_uids_file, 'r') as cache_file_uids:
                 cache_uids_old = cache_file_uids.readlines()
             for u in cache_uids_old:
                 if name == u.split(";")[0] and self.type == u.split(";")[1]:
                     uid = u.split(";")[2]
-                log.debug("Found user:{} id:{} in cache_file"
-                          ":{}".format(name, uid, self.tmp_uids_file))
-
+                    log.debug("Found user:{} id:{} in cache_file:"
+                              ":{}".format(name, uid, self.tmp_uids_file))
         return uid
+
+
+

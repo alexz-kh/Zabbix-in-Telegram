@@ -29,6 +29,13 @@ zabbix_pic = {
     "image_height": "200",
 }
 
+
+#static_uids = {
+#    "username": {"uid": "uid",
+#                 "type": "private"}
+#}
+
+
 #proxy_to_zbx = None
 #proxy_to_tg = None
 

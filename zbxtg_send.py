@@ -36,12 +36,11 @@ def parse_cli_args(_args=None):
       usage=usage_string
     )
 
-    parser.add_argument('-d', '--debug', action='store_true',
+    parser.add_argument('-d', '--debug', action='store_true', default=True,
                         help='Debug')
     parser.add_argument('--username', dest='tg_username', type=str,
                         help='username')
     parser.add_argument('--message', dest='msg_body', type=str,
-                        default="",
                         help='')
     parser.add_argument('--subject',
                         type=str,
@@ -114,6 +113,8 @@ def main():
     tg.html = args.html
     if hasattr(cfg, "emoji_map"):
         tg.emoji_map = cfg.emoji_map
+    if hasattr(cfg, "static_uids"):
+        tg.static_uids = cfg.static_uids
 
     if tg.type != "private" and not args.tg_groupname:
         log.warning("No group-name passed."
